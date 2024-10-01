@@ -9,7 +9,7 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>sisyphus-component-statemachine</artifactId>
+    <artifactId>sisyphus-component-dto</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

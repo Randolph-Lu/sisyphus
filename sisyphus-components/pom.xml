@@ -6,13 +6,9 @@
 
     <packaging>pom</packaging>
 
-    <parent>
-        <groupId>com.randolph.sisyphus</groupId>
-        <artifactId>sisyphus</artifactId>
-        <version>${revision}</version>
-    </parent>
-
-    <artifactId>sisyphus-components</artifactId>
+    <groupId>com.randolph.sisyphus</groupId>
+    <artifactId>sisyphus-components-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -21,8 +17,10 @@
     </properties>
 
     <modules>
+        <module>sisyphus-component-dto</module>
         <module>sisyphus-component-id-generator</module>
         <module>sisyphus-component-statemachine</module>
+        <module>sisyphus-components-rule-engine</module>
     </modules>
 
 </project>
