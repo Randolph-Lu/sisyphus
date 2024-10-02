@@ -19,11 +19,7 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.randolph.sisyphus</groupId>
-            <artifactId>sisyphus-component-dto</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
+
     </dependencies>
 
 </project>
