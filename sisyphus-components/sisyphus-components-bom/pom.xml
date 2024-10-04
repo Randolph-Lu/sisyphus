@@ -11,7 +11,7 @@
 
     <artifactId>sisyphus-components-bom</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <name>${artifactId}</name>
 
     <properties>
@@ -22,7 +22,11 @@
 
     <dependencyManagement>
         <dependencies>
-
+            <dependency>
+                <groupId>com.randolph.sisyphus</groupId>
+                <artifactId>sisyphus-component-id-generator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
