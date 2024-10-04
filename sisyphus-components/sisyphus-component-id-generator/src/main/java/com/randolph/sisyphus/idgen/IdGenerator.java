@@ -10,4 +10,5 @@ public interface IdGenerator {
 
     long nextId();
 
+    String parseId(long id);
 }

@@ -2,6 +2,13 @@ package com.randolph.sisyphus.idgen.snowflake;
 
 import com.randolph.sisyphus.idgen.exception.ClockBackwardException;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author : randolph
  * date : 2024/10/2 16:56
@@ -36,7 +43,7 @@ public abstract class AbstractSnowflakeId implements SnowflakeId {
         this.maxMachineId = ~(-1 << machineIdBitLength);
         this.maxSequence = ~(-1L << sequenceBitLength);
         this.machineIdLeft = sequenceBitLength;
-        this.timeStampLeft = this.machineIdLeft + sequenceBitLength;
+        this.timeStampLeft = this.machineIdLeft + machineIdBitLength;
         this.machineId = machineId;
     }
 
@@ -45,7 +52,7 @@ public abstract class AbstractSnowflakeId implements SnowflakeId {
         long currentTime = getCurrentTime();
 
         if (lastTimeTick > currentTime) {
-            throw new ClockBackwardException();
+            throw new ClockBackwardException(lastTimeTick, currentTime);
         }
 
         if (lastTimeTick == currentTime) {
@@ -62,6 +69,20 @@ public abstract class AbstractSnowflakeId implements SnowflakeId {
         return (((currentTime-epoch) << timeStampLeft)
                 + (machineId << machineIdLeft)
                 + sequence);
+    }
+
+    @Override
+    public String parseId(long id) {
+        long totalBits = TOTAL_BITS;
+
+        long sequenceNo = (id << (totalBits - sequenceBitLength + 1)) >>> (totalBits - sequenceBitLength + 1);
+        long machine = (id << (timestampBitLength + 1 )) >>> (totalBits - machineIdBitLength + 1);
+        long diffTimeTick = id >> (machineIdBitLength + sequenceBitLength);
+
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(TimeUnit.MILLISECONDS.toMillis(diffTimeTick + epoch)), ZoneId.systemDefault());
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS");
+        return String.format("{\"UID\":\"%d\",\"timestamp\":\"%s\",\"workerId\":\"%d\",\"sequence\":\"%d\"}",
+                id, localDateTime.format(timeFormatter), machine, sequenceNo);
     }
 
     protected long tilNextTimeTick(){
