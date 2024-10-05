@@ -6,7 +6,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -71,7 +70,6 @@ public abstract class AbstractSnowflakeId implements SnowflakeId {
                 + sequence);
     }
 
-    @Override
     public String parseId(long id) {
         long totalBits = TOTAL_BITS;
 
