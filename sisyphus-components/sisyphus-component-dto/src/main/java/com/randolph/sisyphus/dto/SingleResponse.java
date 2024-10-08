@@ -3,8 +3,12 @@ package com.randolph.sisyphus.dto;
 import java.io.Serial;
 
 /**
- * @author : randolph
- * date : 2024/10/1 20:37
+ * Response with single record to return
+ * <p/>
+ * Created by Danny.Lee
+ *
+ * @author <a href = "mailto:randolph_lu@163.com">randolph<a/>
+ * @since 5.0.0
  */
 public class SingleResponse<T> extends Response {
 
@@ -21,14 +25,8 @@ public class SingleResponse<T> extends Response {
         this.data = data;
     }
 
-    public static SingleResponse buildSuccess(){
-        SingleResponse response = new SingleResponse<>();
-        response.setSuccess(true);
-        return response;
-    }
-
-    public static SingleResponse buildFailure(String errCode, String errMessage){
-        SingleResponse response = new SingleResponse();
+    public static <T> SingleResponse<T> fastFailure(String errCode, String errMessage){
+        SingleResponse<T> response = new SingleResponse<>();
         response.setSuccess(false);
         response.setErrCode(errCode);
         response.setErrMessage(errMessage);
@@ -36,7 +34,7 @@ public class SingleResponse<T> extends Response {
     }
 
     public static <T> SingleResponse<T> of(T data){
-        SingleResponse<T> response = new SingleResponse();
+        SingleResponse<T> response = new SingleResponse<>();
         response.setSuccess(true);
         response.setData(data);
         return response;

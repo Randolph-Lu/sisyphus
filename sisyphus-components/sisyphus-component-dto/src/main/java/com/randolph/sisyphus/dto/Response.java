@@ -3,12 +3,15 @@ package com.randolph.sisyphus.dto;
 import java.io.Serial;
 
 /**
- * @author : randolph
- * date : 2024/10/1 20:08
+ * Response to caller
+ *
+ * @author fulan.zjf
+ * @author <a href = "mailto:randolph_lu@163.com">randolph<a/>
+ * @since 5.0.0
  */
 public class Response extends DTO{
     @Serial
-    private static final long serialVersionUID = 1;
+    private static final long serialVersionUID = 1L;
 
     private boolean success;
 
