@@ -6,7 +6,7 @@ package com.randolph.sisyphus.idgen;
  */
 public interface IdConvert {
 
-    String asLong(long id);
+    String asString(long id);
 
-    Long asString(String idStr);
+    Long asLong(String idStr);
 }
