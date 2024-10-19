@@ -3,6 +3,7 @@ package com.randolph.sisyphus.idgen.snowflake;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
@@ -10,9 +11,9 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author : randolph
- * date : 2024/10/4 15:20
+ * date : 2024/10/4 15:21
  */
-public class MillSecondSnowflakeIdAttrParse extends SnowflakeIdAttributeParse {
+public class SecondSnowflakeIdAttrParser extends SnowflakeIdAttributeParser {
 
     public static final DateTimeFormatter TIME_FORMATTER = new DateTimeFormatterBuilder()
             .appendValue(ChronoField.YEAR, 4)
@@ -21,14 +22,13 @@ public class MillSecondSnowflakeIdAttrParse extends SnowflakeIdAttributeParse {
             .appendValue(ChronoField.HOUR_OF_DAY, 2)
             .appendValue(ChronoField.MINUTE_OF_HOUR, 2)
             .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
-            .appendValue(ChronoField.MILLI_OF_SECOND, 3)
             .toFormatter();
 
-    public MillSecondSnowflakeIdAttrParse(long epoch, int sequenceBitLength, int machineBitLength, int timestampBitLength) {
-        this(ZoneId.systemDefault(), epoch, sequenceBitLength, machineBitLength, timestampBitLength);
+    public SecondSnowflakeIdAttrParser(long epoch, int sequenceBitLength, int machineBitLength, int timestampBitLength) {
+        this(ZoneId.systemDefault(),epoch, sequenceBitLength, machineBitLength, timestampBitLength);
     }
 
-    public MillSecondSnowflakeIdAttrParse(ZoneId zoneId, long epoch, int sequenceBitLength, int machineBitLength, int timestampBitLength) {
+    public SecondSnowflakeIdAttrParser(ZoneId zoneId, long epoch, int sequenceBitLength, int machineBitLength, int timestampBitLength) {
         super(zoneId, epoch, sequenceBitLength, machineBitLength, timestampBitLength);
     }
 
@@ -43,7 +43,7 @@ public class MillSecondSnowflakeIdAttrParse extends SnowflakeIdAttributeParse {
     }
 
     @Override
-    protected long deltaTimestamp() {
-        return 0;
+    protected long deltaTimestamp(LocalDateTime deltaTimestamp) {
+        return ZonedDateTime.of(deltaTimestamp, getZoneId()).toInstant().getEpochSecond()- epoch;
     }
 }

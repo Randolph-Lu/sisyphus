@@ -7,6 +7,20 @@ import com.randolph.sisyphus.idgen.IdGenerator;
  * date : 2024/10/2 16:56
  */
 public interface SnowflakeId extends IdGenerator {
-    int TOTAL_BITS = 63;
+    int TOTAL_BITS = 64;
+
+    int SIGN_BIT = 1;
+
+    long getEpoch();
+
+    byte getTimestampBitLength();
+
+    byte getMachineIdBitLength();
+
+    byte getSequenceBitLength();
+
+    long getMaxTimestamp();
+    long getMaxSequence();
+    int getMaxMachineId();
 
 }

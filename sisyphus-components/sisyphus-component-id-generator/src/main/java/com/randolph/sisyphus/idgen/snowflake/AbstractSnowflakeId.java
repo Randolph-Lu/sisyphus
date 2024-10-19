@@ -2,12 +2,6 @@ package com.randolph.sisyphus.idgen.snowflake;
 
 import com.randolph.sisyphus.idgen.exception.ClockBackwardException;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.concurrent.TimeUnit;
-
 /**
  * @author : randolph
  * date : 2024/10/2 16:56
@@ -31,8 +25,8 @@ public abstract class AbstractSnowflakeId implements SnowflakeId {
     protected long lastTimeTick = -1L;
 
     protected AbstractSnowflakeId(long epoch, byte timestampBitLength, byte machineIdBitLength, byte sequenceBitLength, long machineId){
-        if ((timestampBitLength + machineIdBitLength + sequenceBitLength) > TOTAL_BITS) {
-            throw new IllegalArgumentException("total bit can't be greater than TOTAL_BIT[63]!");
+        if ((SIGN_BIT + timestampBitLength + machineIdBitLength + sequenceBitLength) > TOTAL_BITS) {
+            throw new IllegalArgumentException("total bit can't be greater than TOTAL_BIT[64]!");
         }
         this.epoch = epoch;
         this.timestampBitLength = timestampBitLength;
@@ -70,19 +64,6 @@ public abstract class AbstractSnowflakeId implements SnowflakeId {
                 + sequence);
     }
 
-    public String parseId(long id) {
-        long totalBits = TOTAL_BITS;
-
-        long sequenceNo = (id << (totalBits - sequenceBitLength + 1)) >>> (totalBits - sequenceBitLength + 1);
-        long machine = (id << (timestampBitLength + 1 )) >>> (totalBits - machineIdBitLength + 1);
-        long diffTimeTick = id >> (machineIdBitLength + sequenceBitLength);
-
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(TimeUnit.MILLISECONDS.toMillis(diffTimeTick + epoch)), ZoneId.systemDefault());
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS");
-        return String.format("{\"UID\":\"%d\",\"timestamp\":\"%s\",\"workerId\":\"%d\",\"sequence\":\"%d\"}",
-                id, localDateTime.format(timeFormatter), machine, sequenceNo);
-    }
-
     protected long tilNextTimeTick(){
         long currentTime = getCurrentTime();
         while (currentTime <= lastTimeTick){
@@ -92,4 +73,43 @@ public abstract class AbstractSnowflakeId implements SnowflakeId {
     }
 
     protected abstract long getCurrentTime();
+
+    @Override
+    public long getEpoch() {
+        return epoch;
+    }
+
+    @Override
+    public byte getTimestampBitLength() {
+        return timestampBitLength;
+    }
+
+    @Override
+    public byte getMachineIdBitLength() {
+        return machineIdBitLength;
+    }
+
+    @Override
+    public byte getSequenceBitLength() {
+        return sequenceBitLength;
+    }
+
+    @Override
+    public long getMaxTimestamp() {
+        return maxTimestamp;
+    }
+
+    @Override
+    public long getMaxSequence() {
+        return maxSequence;
+    }
+
+    @Override
+    public int getMaxMachineId() {
+        return maxMachineId;
+    }
+
+    public long getLastTimeTick() {
+        return lastTimeTick;
+    }
 }

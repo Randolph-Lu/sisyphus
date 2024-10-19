@@ -15,11 +15,11 @@ public class MillSecondSnowflakeId extends AbstractSnowflakeId{
     public static final byte DEFAULT_SEQUENCE_BIT_LENGTH = 12;
 
     public MillSecondSnowflakeId(long machineId){
-        this(IdOptions.EPOCH, DEFAULT_TIMESTAMP_BIT_LENGTH, DEFAULT_MACHINE_ID_BIT_LENGTH, DEFAULT_SEQUENCE_BIT_LENGTH, machineId);
+        this(IdOptions.DEFAULT_EPOCH, DEFAULT_TIMESTAMP_BIT_LENGTH, DEFAULT_MACHINE_ID_BIT_LENGTH, DEFAULT_SEQUENCE_BIT_LENGTH, machineId);
     }
 
     public MillSecondSnowflakeId(int machineIdBitLength, long machineId){
-        super(IdOptions.EPOCH, DEFAULT_TIMESTAMP_BIT_LENGTH, (byte) machineIdBitLength, DEFAULT_SEQUENCE_BIT_LENGTH, machineId);
+        super(IdOptions.DEFAULT_EPOCH, DEFAULT_TIMESTAMP_BIT_LENGTH, (byte) machineIdBitLength, DEFAULT_SEQUENCE_BIT_LENGTH, machineId);
     }
 
     public MillSecondSnowflakeId(long epoch, byte timestampBitLength, byte machineIdBitLength, byte sequenceBitLength, long machineId) {

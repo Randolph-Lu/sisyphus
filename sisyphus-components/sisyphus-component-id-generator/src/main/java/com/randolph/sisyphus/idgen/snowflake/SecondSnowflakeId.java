@@ -17,7 +17,7 @@ public class SecondSnowflakeId extends AbstractSnowflakeId {
     public static final byte DEFAULT_SEQUENCE_BIT_LENGTH = 22;
 
     public SecondSnowflakeId(long machineId){
-        super(IdOptions.EPOCH_SECOND, DEFAULT_TIMESTAMP_BIT_LENGTH, DEFAULT_MACHINE_ID_BIT_LENGTH, DEFAULT_SEQUENCE_BIT_LENGTH, machineId);
+        this(IdOptions.DEFAULT_EPOCH_SECOND, DEFAULT_TIMESTAMP_BIT_LENGTH, DEFAULT_MACHINE_ID_BIT_LENGTH, DEFAULT_SEQUENCE_BIT_LENGTH, machineId);
     }
 
     public SecondSnowflakeId(long epoch, byte timestampBitLength, byte machineIdBitLength, byte sequenceBitLength, long machineId) {
