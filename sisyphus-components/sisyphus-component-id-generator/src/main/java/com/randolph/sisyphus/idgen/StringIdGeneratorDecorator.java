@@ -8,7 +8,7 @@ public class StringIdGeneratorDecorator implements IdGeneratorDecorator {
     protected final IdGenerator idGenerator;
     protected final IdConvert idConvert;
 
-    StringIdGeneratorDecorator(IdGenerator idGenerator, IdConvert idConvert){
+    public StringIdGeneratorDecorator(IdGenerator idGenerator, IdConvert idConvert){
         this.idGenerator = idGenerator;
         this.idConvert = idConvert;
     }

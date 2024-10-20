@@ -47,4 +47,12 @@ public class MillSecondSnowflakeIdAttrParser extends SnowflakeIdAttributeParser 
     protected long deltaTimestamp(LocalDateTime deltaTimestamp) {
         return ZonedDateTime.of(deltaTimestamp, getZoneId()).toInstant().toEpochMilli()/1000 - epoch;
     }
+
+    static MillSecondSnowflakeIdAttrParser of(SnowflakeId generator){
+        return of(generator, ZoneId.systemDefault());
+    }
+
+    static MillSecondSnowflakeIdAttrParser of(SnowflakeId generator, ZoneId zoneId){
+        return new MillSecondSnowflakeIdAttrParser(zoneId, generator.getEpoch(), generator.getSequenceBitLength(), generator.getMachineIdBitLength(), generator.getTimestampBitLength());
+    }
 }

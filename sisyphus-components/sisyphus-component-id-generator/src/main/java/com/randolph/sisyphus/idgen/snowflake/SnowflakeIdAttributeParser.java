@@ -1,8 +1,6 @@
 package com.randolph.sisyphus.idgen.snowflake;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
-import com.google.common.base.Strings;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -30,11 +28,11 @@ public abstract class SnowflakeIdAttributeParser {
     protected final long timestampMask;
     protected final int timestampLeft;
 
-    public SnowflakeIdAttributeParser(long epoch, int sequenceBitLength, int machineBitLength, int timestampBitLength){
+    protected SnowflakeIdAttributeParser(long epoch, int sequenceBitLength, int machineBitLength, int timestampBitLength){
         this(ZoneId.systemDefault(), epoch,sequenceBitLength, machineBitLength, timestampBitLength);
     }
 
-    public SnowflakeIdAttributeParser(ZoneId zoneId, long epoch, int sequenceBitLength, int machineBitLength, int timestampBitLength) {
+    protected SnowflakeIdAttributeParser(ZoneId zoneId, long epoch, int sequenceBitLength, int machineBitLength, int timestampBitLength) {
         this.zoneId = zoneId;
         this.epoch = epoch;
         this.sequenceBitLength = sequenceBitLength;
@@ -110,5 +108,15 @@ public abstract class SnowflakeIdAttributeParser {
         return ~(-1L << bitLength);
     }
 
+    static SnowflakeIdAttributeParser create(SnowflakeId generator){
+        return create(generator, ZoneId.systemDefault());
+    }
+
+    static SnowflakeIdAttributeParser create(SnowflakeId generator, ZoneId zoneId){
+        if (generator instanceof SecondSnowflakeId){
+            return SecondSnowflakeIdAttrParser.of(generator, zoneId);
+        }
+        return MillSecondSnowflakeIdAttrParser.of(generator, zoneId);
+    }
 
 }

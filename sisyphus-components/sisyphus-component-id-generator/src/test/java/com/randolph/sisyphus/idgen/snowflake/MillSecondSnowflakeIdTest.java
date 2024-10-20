@@ -18,7 +18,8 @@ class MillSecondSnowflakeIdTest {
     @BeforeEach
     void setUp() {
         idGen = new MillSecondSnowflakeId(TEST_MACHINE_ID);
-        parse = new MillSecondSnowflakeIdAttrParser(idGen.epoch, idGen.sequenceBitLength, idGen.machineIdBitLength, idGen.timestampBitLength);
+        parse = MillSecondSnowflakeIdAttrParser.of(idGen);
+
     }
 
     @Test
