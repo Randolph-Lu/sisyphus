@@ -4,8 +4,12 @@ import java.io.Serial;
 import java.util.*;
 
 /**
- * @author : randolph
- * date : 2024/10/1 20:38
+ * Response with batch page record to return,
+ * usually use in page query
+ * <p/>
+ * Created by xiaochu.lbj
+ * @author <a href = "mailto:randolph_lu@163.com">randolph<a/>
+ * @since 5.0.0
  */
 public class PageResponse<T> extends Response {
     @Serial
@@ -56,14 +60,8 @@ public class PageResponse<T> extends Response {
         this.data = data;
     }
 
-    public static PageResponse buildSuccess() {
-        PageResponse response = new PageResponse();
-        response.setSuccess(true);
-        return response;
-    }
-
-    public static PageResponse buildFailure(String errCode, String errMessage) {
-        PageResponse response = new PageResponse();
+    public static <T> PageResponse<T> fastFailure(String errCode, String errMessage) {
+        PageResponse<T> response = new PageResponse<>();
         response.setSuccess(false);
         response.setErrCode(errCode);
         response.setErrMessage(errMessage);
